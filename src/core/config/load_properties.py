@@ -9,16 +9,30 @@ from jproperties import Properties
 
 
 class LoadProperties:
-    def __init__(self):
-        print("This load_properties.py")
+    """
+    This is the class to load all the properties and make them available to the entire project.
+    """
+    def __init__(self, global_properties):
+        """
+        This method creates an object for the properties class.
+        """
         self.configs = Properties()
+        self.global_properties = global_properties
+        self.file_path = self.global_properties['configurations']
 
     def fetch_properties(self):
-        with open('', 'rb') as read_prop:
-            self.configs.load(read_prop)
+        """
+        This method opens up the properties file, reads the file and fetches all the parameters.
+        """
 
-        prop_view = self.configs.items()
-        print(type(prop_view))
+        with open(self.file_path, 'rb') as file:
+            self.configs.load(file)
 
-        for item in prop_view:
-            print(item)
+        properties = self.configs.items()
+
+        for item in properties:
+            key = item[0]
+            value = item[1].data
+            self.global_properties[key] = value
+
+        return self.global_properties
