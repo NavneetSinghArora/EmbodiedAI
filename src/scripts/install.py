@@ -5,11 +5,27 @@ For local system, make changes to configuration.properties and execute the scrip
 For remote system, make changes to configuration.properties, connect to the Informatik VPN and execute the script.
 """
 
-
 # Importing python libraries for required processing
-from paramiko.ssh_exception import AuthenticationException, SSHException, BadHostKeyException
-import paramiko
-import click
+import fabric
+import invoke
+from fabric import Connection
+
+
+def command_sequence(connection, properties):
+    system_type = properties['system_type']
+    small_system_path = properties['small_system_path']
+    large_system_path = properties['large_system_path']
+
+    if system_type == 'large':
+        directory_path = large_system_path
+    else:
+        directory_path = small_system_path
+
+    with connection.cd(directory_path):
+        try:
+            connection.run('ls -ltr | grep 0arora')
+        except invoke.exceptions.UnexpectedExit:
+            connection.run('mkdir ' + properties['username'])
 
 
 class Install:
@@ -19,30 +35,17 @@ class Install:
 
     def authenticate(self):
         ssh = None
-        server = self.properties['url']
+        url = self.properties['url']
         username = self.properties['username']
         password = self.properties['password']
+        system_name = self.properties['system_name']
+        host = system_name + url
 
-        try:
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.connect(hostname=server, username=username, password=password)
-        except AuthenticationException as authenticationException:
-            click.echo(click.style('ERROR: FAILED AUTHENTICATION: Please verify your credentials: %s' % authenticationException, bold=True, bg='red'), err=True)
-        except BadHostKeyException as badHostKeyException:
-            click.echo(click.style('ERROR: HOST KEY FAILURE: Unable to verify server host key: %s' % badHostKeyException, bold=True, bg='red'), err=True)
-        except SSHException as sshException:
-            click.echo(click.style('ERROR: FAILED CONNECTION: Unable to establish SSH connection: %s' % sshException, bold=True, bg='red'), err=True)
-        finally:
-            ssh.close()
+        connection = Connection(host=host, user=username, connect_kwargs={"password": password})
 
-        return ssh
+        return connection
 
     def create_infrastructure(self):
 
-        ssh = self.authenticate()
-        # stdin, stdout, stderr = ssh.exec_command('ls -l')
-        # stdout = stdout.readlines()
-        # print(stdout)
-        # pass
-        pass
+        connection = self.authenticate()
+        command_sequence(connection, self.properties)

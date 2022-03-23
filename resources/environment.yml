@@ -22,6 +22,7 @@ dependencies:
   - dask-core=2022.2.1
   - distributed=2022.2.1
   - entrypoints=0.3
+  - fabric=2.5.0
   - freetype=2.11.0
   - fsspec=2022.2.0
   - giflib=5.2.1
@@ -29,6 +30,7 @@ dependencies:
   - idna=3.3
   - intake=0.6.5
   - intel-openmp=2021.4.0
+  - invoke=1.4.1
   - jinja2=3.0.3
   - jpeg=9d
   - jproperties=2.1.1
