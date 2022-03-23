@@ -84,4 +84,18 @@ execute the project seamlessly.
    This should show the help option available in this project. If this command gives an error, please check the above steps or reach out to 
 the team of this project.
 
-3. 
+3. Once the basic setup is done, there are two ways to execute the main code on the remote server.
+   1. Using the Configuration file.
+      1. Open the ```system.configurations.properties``` file.
+      2. Edit the properties according to where you want to execute the code.
+      3. Once completed, run the following command:
+         ```bash
+         project --system 'MacOS' --config 'True' 
+         ```
+   2. Using the CLI interface.
+      1. With this interface, there is no need to edit the ```system.configurations.properties``` file.
+      2. Execute ```project --help``` to see the different set of commands with which you can run the project.
+      3. Finally, use the arguments to run. Sample command will look like the following:
+         ```project --system 'MacOS' --config 'False' --username '<username>' --password '<password>'```
+      4. This way of execution is still under progress. If any option is missing for your execution,
+         please use the method of Configuration to your convenience.
