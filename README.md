@@ -96,6 +96,8 @@ the team of this project.
       1. With this interface, there is no need to edit the ```system.configurations.properties``` file.
       2. Execute ```project --help``` to see the different set of commands with which you can run the project.
       3. Finally, use the arguments to run. Sample command will look like the following:
-         ```project --system 'MacOS' --config 'False' --username '<username>' --password '<password>'```
+         ```bash
+         project --system 'MacOS' --config 'False' --username '<username>' --password '<password>' 
+         ```
       4. This way of execution is still under progress. If any option is missing for your execution,
          please use the method of Configuration to your convenience.
