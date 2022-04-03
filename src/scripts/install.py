@@ -6,36 +6,9 @@ For remote system, make changes to configuration.properties, connect to the Info
 """
 
 # Importing python libraries for required processing
-import invoke
 from fabric import Connection
-
-
-def command_sequence(connection, properties):
-    """
-    This function helps run a sequence of commands on the remote server.
-    It uses the global properties and runs the commands to create the basic directory structure on the server.
-
-    Args:
-        param connection:   Open session from the running ssh connection to the remote server.
-        param properties:   Dictionary of all global properties available across the project.
-
-    Returns:
-        return:             None
-    """
-    system_type = properties['system_type']
-    small_system_path = properties['small_system_path']
-    large_system_path = properties['large_system_path']
-
-    if system_type == 'large':
-        directory_path = large_system_path
-    else:
-        directory_path = small_system_path
-
-    with connection.cd(directory_path):
-        try:
-            connection.run('ls -ltr | grep 0arora')
-        except invoke.exceptions.UnexpectedExit:
-            connection.run('mkdir ' + properties['username'])
+from src.core.util.services import setup_directory_structure
+from src.core.util.services import setup_conda_environment
 
 
 class Install:
@@ -79,4 +52,5 @@ class Install:
         """
 
         connection = self.authenticate()
-        command_sequence(connection, self.properties)
+        setup_directory_structure(connection, self.properties)
+        setup_conda_environment(connection, self.properties)

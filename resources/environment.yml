@@ -92,3 +92,6 @@ dependencies:
   - zict=2.0.0
   - zlib=1.2.11
   - zstd=1.4.9
+  - pip:
+    - fabric2==2.7.0
+    - pathlib2==2.3.7.post1
