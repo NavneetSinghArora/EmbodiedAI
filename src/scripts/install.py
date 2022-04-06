@@ -11,7 +11,7 @@ from src.core.util.services import setup_directory_structure
 from src.core.util.services import setup_conda_environment
 from src.core.util.services import setup_main_code
 from src.core.util.services import setup_virtual_environment
-from src.core.util.services import activate_virtual_environment
+# from src.core.util.services import activate_virtual_environment
 
 
 class Install:

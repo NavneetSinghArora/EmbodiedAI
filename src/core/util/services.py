@@ -97,13 +97,19 @@ def setup_main_code(connection, properties):
 
     with connection.cd(environment_path):
         try:
-            connection.run('ls -ltr | grep ' + code_directory)
+            connection.run('ls -ltr | grep ' + code_directory + '_bkp')
+            connection.run('rm -rf ' + code_directory + '_bkp')
         except invoke.exceptions.UnexpectedExit:
             try:
+                connection.run('ls -ltr | grep ' + code_directory)
+                connection.run('mv ' + code_directory + ' ' + code_directory + '_bkp')
                 connection.run('git clone ' + main_code)
             except invoke.exceptions.UnexpectedExit:
-                print("Error cloning the main repository.")
-                print("Reach out to the Administrator or Do it Manually")
+                try:
+                    connection.run('git clone ' + main_code)
+                except invoke.exceptions.UnexpectedExit:
+                    print("Error cloning the main repository.")
+                    print("Reach out to the Administrator or Do it Manually")
 
 
 def setup_virtual_environment(connection, properties):
@@ -128,16 +134,15 @@ def setup_virtual_environment(connection, properties):
             print('Conda Environment already exists')
 
             print('Updating the conda environment with new dependencies, if any')
+            connection.run(conda_path + 'conda install --name ' + code_directory + ' --file ../../' + code_directory + '/resources/linux64.txt')
+            connection.run('rm -rf ' + code_directory)
             connection.run(conda_path + 'conda env update --prefix ./' + code_directory + ' --file ../../' + code_directory + '/resources/environment.yml --prune')
-            # connection.run(conda_path + 'conda install --name ' + code_directory + ' --file ../../' + code_directory + '/resources/linux64.txt')
-            # connection.run('rm -rf ' + code_directory)
-            # connection.run(conda_path + 'conda env create -f ../../' + code_directory + '/resources/environment.yml')
         except invoke.exceptions.UnexpectedExit:
             try:
-                # connection.run(conda_path + 'conda create --name ' + code_directory + ' --file ../../' + code_directory + '/resources/linux64.txt')
-                # connection.run(conda_path + 'conda env export --no-builds -n ' + code_directory + ' > ../../' + code_directory + '/resources/environment.yml')
-                # connection.run('rm -rf ' + code_directory)
-                connection.run(conda_path + 'conda env create -f ../../' + code_directory + '/resources/environment.yml')
+                connection.run(conda_path + 'conda create --name ' + code_directory + ' --file ../../' + code_directory + '/resources/linux64.txt')
+                connection.run(conda_path + 'conda env export --no-builds -n ' + code_directory + ' > ../../' + code_directory + '/resources/environment.yml')
+                connection.run('rm -rf ' + code_directory)
+                connection.run(conda_path + 'conda env update --prefix ./' + code_directory + ' --file ../../' + code_directory + '/resources/environment.yml --prune')
             except invoke.exceptions.UnexpectedExit:
                 print("Error while creating the conda virtual environment")
                 print("Reach out to the Administrator or Do it Manually")
