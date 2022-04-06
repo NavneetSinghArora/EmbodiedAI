@@ -73,7 +73,7 @@ def setup_conda_environment(connection, properties):
 
         try:
             with connection.cd(temporary_directory):
-                # connection.run('~/.bashrc')
+                connection.run('~/.bashrc')
                 connection.run('source ~/.bashrc')
                 connection.run(environment_path + ' list')
                 print("Conda setup successfully.")
@@ -116,9 +116,11 @@ def setup_virtual_environment(connection, properties):
     if system_type == 'large':
         environment_path = conda_large_path + '/home/' + username + '/anaconda3/envs'
         conda_path = conda_large_path + '/home/' + username + '/anaconda3/bin/'
+        project_path = conda_large_path + '/home/' + username + '/' + code_directory
     else:
         environment_path = conda_small_path + '/home/' + username + '/anaconda3/envs'
         conda_path = conda_small_path + '/home/' + username + '/anaconda3/bin/'
+        project_path = conda_small_path + '/home/' + username + '/' + code_directory
 
     with connection.cd(environment_path):
         try:
@@ -139,3 +141,33 @@ def setup_virtual_environment(connection, properties):
             except invoke.exceptions.UnexpectedExit:
                 print("Error while creating the conda virtual environment")
                 print("Reach out to the Administrator or Do it Manually")
+
+
+# def activate_virtual_environment(connection, properties):
+#     system_type = properties['system_type']
+#     conda_large_path = properties['conda_large_path']
+#     conda_small_path = properties['conda_small_path']
+#     username = properties['username']
+#     code_directory = properties['code_directory']
+#
+#     if system_type == 'large':
+#         environment_path = conda_large_path + '/home/' + username + '/anaconda3/envs'
+#         project_path = conda_large_path + '/home/' + username + '/' + code_directory
+#         conda_path = conda_large_path + '/home/' + username + '/anaconda3/bin/'
+#     else:
+#         environment_path = conda_small_path + '/home/' + username + '/anaconda3/envs'
+#         conda_path = conda_small_path + '/home/' + username + '/anaconda3/bin/'
+#
+#     # with connection.cd(environment_path):
+#     try:
+#         connection.run('echo ". /export/home/0arora/anaconda3/etc/profile.d/conda.sh" >> ~/.bash_profile')
+#         connection.run('echo "/export/home/0arora/anaconda3/bin/conda activate" >> ~/.bash_profile')
+#         connection.run('source /export/home/0arora/anaconda3/etc/profile.d/conda.sh')
+#         connection.run('/export/home/0arora/anaconda3/bin/conda init --all')
+#         connection.run('source ~/.bashrc')
+#         connection.run('export PATH=/export/home/0arora/anaconda3/bin/conda:/export/home/0arora/anaconda3/condabin:$PATH && echo $PATH')
+#         connection.run('/export/home/0arora/anaconda3/bin/conda activate /export/home/0arora/anaconda3/envs/AI2Thor')
+#         connection.run('sh /export/home/0arora/AI2Thor/resources/activate.sh')
+#     except invoke.exceptions.UnexpectedExit:
+#         print("Error while activating the conda virtual environment")
+#         print("Reach out to the Administrator or Do it Manually")

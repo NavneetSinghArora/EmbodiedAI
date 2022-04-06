@@ -6,7 +6,7 @@ For remote system, make changes to configuration.properties, connect to the Info
 """
 
 # Importing python libraries for required processing
-from fabric import Connection
+from fabric2 import Connection
 from src.core.util.services import setup_directory_structure
 from src.core.util.services import setup_conda_environment
 from src.core.util.services import setup_main_code
@@ -59,3 +59,4 @@ class Install:
         setup_conda_environment(connection, self.properties)
         setup_main_code(connection, self.properties)
         setup_virtual_environment(connection, self.properties)
+        # activate_virtual_environment(connection, self.properties)
