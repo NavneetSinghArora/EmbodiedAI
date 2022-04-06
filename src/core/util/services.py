@@ -5,6 +5,7 @@
 # Importing python libraries for required processing
 import invoke
 from invoke.watchers import Responder
+import git
 
 
 def setup_directory_structure(connection, properties):
@@ -79,3 +80,62 @@ def setup_conda_environment(connection, properties):
         except invoke.exceptions.UnexpectedExit:
             print("Error setting up conda on the remote server.")
             print("Please check the connection or Contact Administrator or Install Manually")
+
+
+def setup_main_code(connection, properties):
+    system_type = properties['system_type']
+    conda_large_path = properties['conda_large_path']
+    conda_small_path = properties['conda_small_path']
+    username = properties['username']
+    main_code = properties['main_code']
+    code_directory = properties['code_directory']
+
+    if system_type == 'large':
+        environment_path = conda_large_path + '/home/' + username
+    else:
+        environment_path = conda_small_path + '/home/' + username
+
+    with connection.cd(environment_path):
+        try:
+            connection.run('ls -ltr | grep ' + code_directory)
+        except invoke.exceptions.UnexpectedExit:
+            try:
+                connection.run('git clone ' + main_code)
+            except invoke.exceptions.UnexpectedExit:
+                print("Error cloning the main repository.")
+                print("Reach out to the Administrator or Do it Manually")
+
+
+def setup_virtual_environment(connection, properties):
+    system_type = properties['system_type']
+    conda_large_path = properties['conda_large_path']
+    conda_small_path = properties['conda_small_path']
+    username = properties['username']
+    code_directory = properties['code_directory']
+
+    if system_type == 'large':
+        environment_path = conda_large_path + '/home/' + username + '/anaconda3/envs'
+        conda_path = conda_large_path + '/home/' + username + '/anaconda3/bin/'
+    else:
+        environment_path = conda_small_path + '/home/' + username + '/anaconda3/envs'
+        conda_path = conda_small_path + '/home/' + username + '/anaconda3/bin/'
+
+    with connection.cd(environment_path):
+        try:
+            connection.run('ls -ltr | grep ' + code_directory)
+            print('Conda Environment already exists')
+
+            print('Updating the conda environment with new dependencies, if any')
+            connection.run(conda_path + 'conda env update --prefix ./' + code_directory + ' --file ../../' + code_directory + '/resources/environment.yml --prune')
+            # connection.run(conda_path + 'conda install --name ' + code_directory + ' --file ../../' + code_directory + '/resources/linux64.txt')
+            # connection.run('rm -rf ' + code_directory)
+            # connection.run(conda_path + 'conda env create -f ../../' + code_directory + '/resources/environment.yml')
+        except invoke.exceptions.UnexpectedExit:
+            try:
+                # connection.run(conda_path + 'conda create --name ' + code_directory + ' --file ../../' + code_directory + '/resources/linux64.txt')
+                # connection.run(conda_path + 'conda env export --no-builds -n ' + code_directory + ' > ../../' + code_directory + '/resources/environment.yml')
+                # connection.run('rm -rf ' + code_directory)
+                connection.run(conda_path + 'conda env create -f ../../' + code_directory + '/resources/environment.yml')
+            except invoke.exceptions.UnexpectedExit:
+                print("Error while creating the conda virtual environment")
+                print("Reach out to the Administrator or Do it Manually")

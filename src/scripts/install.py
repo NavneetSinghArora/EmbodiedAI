@@ -9,6 +9,9 @@ For remote system, make changes to configuration.properties, connect to the Info
 from fabric import Connection
 from src.core.util.services import setup_directory_structure
 from src.core.util.services import setup_conda_environment
+from src.core.util.services import setup_main_code
+from src.core.util.services import setup_virtual_environment
+from src.core.util.services import activate_virtual_environment
 
 
 class Install:
@@ -54,3 +57,5 @@ class Install:
         connection = self.authenticate()
         setup_directory_structure(connection, self.properties)
         setup_conda_environment(connection, self.properties)
+        setup_main_code(connection, self.properties)
+        setup_virtual_environment(connection, self.properties)
