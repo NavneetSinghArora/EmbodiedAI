@@ -1,8 +1,11 @@
 # Embodied AI Infrastructure Framework
 
+> [!IMPORTANT]
+> **Legal Disclaimer & Attribution**: This framework is an **adaptation** of existing research scripts and utilities designed to streamline Embodied AI research. It is specifically tailored to support environments like [AI2-THOR](https://ai2thor.allenai.org/). This project is provided for research purposes and is not intended to claim ownership of the underlying simulation technologies.
+
 ## Overview
 
-The **Embodied AI Infrastructure Framework** is a specialized Python toolkit designed to automate and streamline the deployment of Embodied AI research environments. This framework simplifies the complex process of setting up multi-agent, multi-modal simulation environments like [AI2-THOR](https://ai2thor.allenai.org/) on remote high-performance computing (HPC) clusters.
+The **Embodied AI Infrastructure Framework** is a specialized Python toolkit designed to automate and streamline the deployment of Embodied AI research environments. This framework simplifies the complex process of setting up multi-agent, multi-modal simulation environments on remote high-performance computing (HPC) clusters.
 
 By providing a unified Command Line Interface (CLI), the framework handles SSH connectivity, Conda environment synchronization, and code deployment, allowing researchers to focus on model development rather than infrastructure overhead.
 
@@ -120,11 +123,19 @@ If you've added dependencies on a Linux remote server:
 
 ---
 
-## 👥 Authors & License
+## ⚖️ License & Acknowledgements
 
-- **Developer**: Navneet Singh Arora
+### Acknowledgements
+This work was developed at the **University of Hamburg (Informatik)** as a research utility for the COLMAN project. It is an adaptation of existing industry and academic patterns for remote environment management.
+
+We gratefully acknowledge the researchers and developers behind [AI2-THOR](https://ai2thor.allenai.org/) (Allen Institute for AI) whose platform is the primary target for this infrastructure.
+
+### Contributors
+- **Adaptation & Maintenance**: Navneet Singh Arora
 - **Institution**: University of Hamburg (Informatik)
-- **License**: © Copyright by Navneet Singh Arora
+
+### License
+This project is open-source and intended for academic and research use. Users must adhere to the licenses of the underlying software and frameworks, including AI2-THOR's [Apache 2.0](https://github.com/allenai/ai2thor/blob/main/LICENSE) license.
 
 ---
 

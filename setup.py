@@ -7,7 +7,7 @@ AUTHOR_EMAIL = '0arora@informatik.uni-hamburg.de'
 URL = ''
 REQUIRES_PYTHON = '>=3.8.0'
 VERSION = '1.0.0'
-LICENSE = '(c) Copyright by Navneet Singh Arora'
+LICENSE = 'Apache License 2.0'
 
 with open('README.md', 'r') as readme_file:
     readme = readme_file.read()
@@ -43,8 +43,8 @@ setup(
     zip_safe=False,
 
     classifiers=[
-        'Development Status :: 1 - Planning',
-        'License :: Other/Proprietary License',
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
