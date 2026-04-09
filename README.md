@@ -6,6 +6,9 @@ The **Embodied AI Infrastructure Framework** is a specialized Python toolkit des
 
 By providing a unified Command Line Interface (CLI), the framework handles SSH connectivity, Conda environment synchronization, and code deployment, allowing researchers to focus on model development rather than infrastructure overhead.
 
+### 🔗 Primary Application: COLMAN
+This infrastructure serves as the backbone for the **[COLMAN Project](https://github.com/NavneetSinghArora/COLMAN)** (Collaborative Multi-Agent Navigation). While COLMAN focuses on the implementation of textual-visual embeddings and multi-agent logic, this framework ensures those models can be trained and evaluated seamlessly across distributed university servers.
+
 ---
 
 ## 🚀 Key Features
