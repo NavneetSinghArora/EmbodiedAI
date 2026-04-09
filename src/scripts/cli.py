@@ -1,6 +1,6 @@
 """
-This script offers the CLI interface for the PYETL package.
-TODO: Rest of the information will be updated as and when the code is written
+This module provides the Command Line Interface (CLI) for the Embodied AI Infrastructure Framework.
+It facilitates the deployment and synchronization of research environments on remote HPC clusters.
 """
 
 # Importing python libraries for required processing
